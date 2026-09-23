@@ -1,30 +1,35 @@
 class Solution {
+    private int[] nums;
+
     public int[] sortArray(int[] nums) {
-        if (nums.length <= 1) {
-            return nums;
-        }
-        int mid = nums.length / 2;
-        int[] left = sortArray(java.util.Arrays.copyOfRange(nums, 0, mid));
-        int[] right = sortArray(java.util.Arrays.copyOfRange(nums, mid, nums.length));
-        return merge(left, right);
+        this.nums = nums;
+        quickSort(0, nums.length - 1);
+        return nums;
     }
 
-    private int[] merge(int[] left, int[] right) {
-        int[] result = new int[left.length + right.length];
-        int i = 0, j = 0, k = 0;
-        while (i < left.length && j < right.length) {
-            if (left[i] <= right[j]) {
-                result[k++] = left[i++];
+    private void quickSort(int l, int r) {
+        if (l >= r) {
+            return;
+        }
+        int i = l - 1, j = r + 1, k = l;
+        int x = nums[l + (int) (Math.random() * (r - l + 1))];
+        while (k < j) {
+            if (nums[k] < x) {
+                swap(++i, k++);
+            } else if (nums[k] > x) {
+                swap(--j, k);
             } else {
-                result[k++] = right[j++];
+                ++k;
             }
         }
-        while (i < left.length) {
-            result[k++] = left[i++];
-        }
-        while (j < right.length) {
-            result[k++] = right[j++];
-        }
-        return result;
+        quickSort(l, i);
+        quickSort(j, r);
+    }
+
+    private void swap(int i, int j) {
+        int t = nums[i];
+        nums[i] = nums[j];
+        nums[j] = t;
     }
 }
+//om
